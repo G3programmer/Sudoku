@@ -18,37 +18,22 @@ body {
   
 }
 
-.sudoku-board {
-    display: grid;
-    grid-template-columns: repeat(9, 66px); /* 9 colunas de 66px cada */
-    grid-template-rows: repeat(9, 66px); /* 9 linhas de 66px cada */
-    gap: 1px; /* Espaçamento entre os quadrados */
-}
-
 canvas {
     display: grid;
     background-color:rgb(198, 230, 255);
-    grid-template-columns: repeat(9, 50px); /* 8 colunas de 50px cada */
-    grid-template-rows: repeat(9, 50px); 
     border: 2px solid black; 
+    
 }
 
 #SudokuMap {
     display: grid;
+    column-rule-style: solid;
     grid-template-columns: repeat(9, 50px); /* 8 colunas de 50px cada */
     grid-template-rows: repeat(9, 50px); 
     width: 540px; /* 9 quadrados de 60px cada */
     height: 540px; /* 9 quadrados de 60px cada */
     border: 2px solid black; /* Adicionando uma borda para visualização */
 }
-
-.square {
-    width: 50px;
-    height: 50px;
-    border: 1px solid black;
-}
-
-
 
 .time {
     display: flex;
