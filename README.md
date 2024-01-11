@@ -4,7 +4,7 @@
 # Sudoku
 
 ![Logo](https://games.wtop.com/arenaxstorage-blob/arenax-games/Sudoku/1.29/assets/thumbs/secondary-thumb2x.jpg)
-O Sudoku é um quebra-cabeça que se baseia na concordância racional de números. Proveniente de um acrônimo da expressão “Os números devem ser únicos” (em japonês: Suuji wa dokushin ni kagiru)."
+<p> O Sudoku é um quebra-cabeça que se baseia na concordância racional de números. Proveniente de um acrônimo da expressão “Os números devem ser únicos” (em japonês: Suuji wa dokushin ni kagiru)."</p>
 
 ## Um pouco da origem
 A primeira vez que uma tabela de sudoku apareceu em um jornal aconteceu na França em 1895, mas as versões modernas que conhecemos hoje em dia foram invenção de Howard Garns, um inventor freelancer de quebra-cabeças dos Estados Unidos, em 1979.
