@@ -8,12 +8,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const cellSize = 67;
     const areaSize = cellSize * 3;
 
-    //Gerar os números aleatórios
-
-    const numb = generateRandomNumb();
-
+    // Gerar os números aleatórios (agora com exatamente 12 números iniciais)
+    const numb = generateRandomPattern(35);
     let sudokuBoard = createSudokuBoard(numb);
-
     drawSudokuBoard();
 
     canvas.addEventListener("click", function (event) {
@@ -24,13 +21,10 @@ document.addEventListener("DOMContentLoaded", function () {
         const clickedRow = Math.floor(y / cellSize);
         const clickedCol = Math.floor(x / cellSize);
 
-
-    // Validar a jogada
-
-
+        // Validar a jogada
         const inputNumber = prompt("Digite um número de 1 a 9");
         const num = parseInt(inputNumber, 10);
-    
+
         if (isValidInput(num) && isValidMove(sudokuBoard, clickedRow, clickedCol, num)) {
             sudokuBoard[clickedRow][clickedCol] = num;
             drawSudokuBoard();
@@ -74,24 +68,23 @@ document.addEventListener("DOMContentLoaded", function () {
         return true;
     }
 
-    function generateRandomNumb() {
-        const randomNumb = [];
-        for (let i = 0; i < SIZE * SIZE; i++) {
-            if (i < 32) {
-                
-                randomNumb.push(Math.floor(Math.random() * 9) + 1);
-            } else {
-                randomNumb.push(EMPTY);
+    function generateRandomPattern(initialNumbers) {
+        const pattern = Array.from({ length: SIZE }, () => Array(SIZE).fill(EMPTY));
+
+        let generatedNumbers = 0;
+
+        while (generatedNumbers < initialNumbers) {
+            const num = Math.floor(Math.random() * 9) + 1;
+            const row = Math.floor(Math.random() * SIZE);
+            const col = Math.floor(Math.random() * SIZE);
+
+            if (isValidMove(pattern, row, col, num)) {
+                pattern[row][col] = num;
+                generatedNumbers++;
             }
         }
-        for (let i = randomNumb.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [randomNumb[i], randomNumb[j]] = [randomNumb[j], randomNumb[i]];
-        }
 
-
-        
-        return randomNumb;
+        return pattern.flat();
     }
 
     function createSudokuBoard(numb) {
@@ -109,8 +102,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return board;
     }
 
-    //Desenhando o tabuleiro
-
+    // Desenhando o tabuleiro
     function drawSudokuBoard() {
         context.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -162,7 +154,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Definindo números
-
     function isValidInput(num) {
         return !isNaN(num) && num >= 0 && num <= 9;
     }
