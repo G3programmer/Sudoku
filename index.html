@@ -1,41 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
- 
- <link rel="stylesheet" href="style.css">
- <title>Sudoku</title>
- <link rel="icon" href="asset/sudoku.ico" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <title>Sudoku</title>
+    <link rel="icon" href="asset/sudoku.ico" type="image/x-icon">
 </head>
 
 <body>
-<div class="time">
-    Time:
-    <span class="time--count">00:00</span> 
+    <div class="time">
+        Time: <span class="time--count">00:00</span>
+    </div>
 
-</div>  
+    <div class="menu-screen">
+        <span class="game-over">game-over</span>
+        <span class="final--time">Time: <span>00:00</span></span>
+        <button class="btn-play">
+            <span class="material-symbols-outlined">play_circle</span>
+            Jogar novamente
+        </button>
+    </div>
 
-<div class="menu-screen">
-<span class="game-over">game-over</span>
-<span class="final--time">Time: <span>00:00</span></span>
-
-<button class="btn-play">
-    <span class="material-symbols-outlined">
-        play_circle
-    </span>
+    <canvas id="SudokuMap" width="548" height="548"></canvas>
+    <script src="time.js"></script>
+    <script src="test.js"></script>
     
-    Jogar novamente
-</button>
-
-</div>
-
-<canvas id="SudokuMap" width="600" height="600">
-
-</canvas>
-
-<script src="time.js"></script>
-    <script src="logic.js"></script>
 </body>
 </html>
