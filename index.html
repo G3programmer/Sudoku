@@ -9,10 +9,11 @@
 </head>
 
 <body>
-    <div class="time">
-        Time: <span class="time--count">00:00</span>
+    <div class="timescore">
+      <h4>Time: <span class="time--count">00:00</span></h4>
+      <h4>Score: <span class="score">000</span> </h4>
+    <h5>Invalid plays: <span class="invalid">0</span></h5>
     </div>
-
     <div class="menu-screen">
         <span class="game-over">game-over</span>
         <span class="final--time">Time: <span>00:00</span></span>
@@ -23,8 +24,9 @@
     </div>
 
     <canvas id="SudokuMap" width="548" height="548"></canvas>
-    <script src="time.js"></script>
     <script src="test.js"></script>
-    
+    <script src="logic.js"></script>
+    <script src="score.js"></script>
+    <script src="error.js"></script>
 </body>
 </html>

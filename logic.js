@@ -8,40 +8,47 @@ document.addEventListener("DOMContentLoaded", function () {
     const cellSize = 60;
     const margin = 1;
 
-    let solution = generateSudokuSolution();
-    let sudokuBoard = generateSudokuPuzzle(solution, 25);
-    drawSudokuBoard();
+    let invalidMovesCount = 0;
+    const maxInvalidMoves = 3;
 
-    canvas.addEventListener("click", function (event) {
-        const rect = canvas.getBoundingClientRect();
-        const x = event.clientX - rect.left;
-        const y = event.clientY - rect.top;
+    function shuffleBoard(board) {
+        const swaps = 20;
 
-        const clickedRow = Math.floor(y / (cellSize + margin));
-        const clickedCol = Math.floor(x / (cellSize + margin));
+        function swapRows() {
+            const block = Math.floor(Math.random() * 3) * 3;
+            const row1 = block + Math.floor(Math.random() * 3);
+            let row2;
 
-        // Verificar se a célula já está preenchida automaticamente
-        if (sudokuBoard[clickedRow][clickedCol] !== EMPTY) {
-            alert("Esta célula já está preenchida automaticamente.");
-            return;
+            do {
+                row2 = block + Math.floor(Math.random() * 3);
+            } while (row1 === row2);
+
+            [board[row1], board[row2]] = [board[row2], board[row1]];
         }
 
-        // Validar a jogada
-        const inputNumber = prompt("Digite um número de 1 a 9");
-        const num = parseInt(inputNumber, 10);
-
-        if (isValidInput(num) && isValidMove(sudokuBoard, solution, clickedRow, clickedCol, num)) {
-            sudokuBoard[clickedRow][clickedCol] = num;
-            drawSudokuBoard();
-        } else {
-            alert("Movimento inválido! Tente novamente.");
+        function swapCols() {
+            transpose(board);
+            swapRows();
+            transpose(board);
         }
-    });
+
+        for (let i = 0; i < swaps; i++) {
+            Math.random() < 0.5 ? swapRows() : swapCols();
+        }
+    }
+
+    function transpose(matrix) {
+        const size = matrix.length;
+        for (let i = 0; i < size; i++) {
+            for (let j = i + 1; j < size; j++) {
+                [matrix[i][j], matrix[j][i]] = [matrix[j][i], matrix[i][j]];
+            }
+        }
+    }
 
     function generateSudokuPuzzle(solution, visibleNumbers) {
-        let puzzle = JSON.parse(JSON.stringify(solution)); // Clone the solution
+        let puzzle = JSON.parse(JSON.stringify(solution));
 
-        // Remove numbers to create the puzzle
         let cellsToRemove = SIZE * SIZE - visibleNumbers;
 
         while (cellsToRemove > 0) {
@@ -64,8 +71,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function solveSudoku(board) {
-        const SIZE = board.length;
-
         function findEmptyLocation() {
             for (let row = 0; row < SIZE; row++) {
                 for (let col = 0; col < SIZE; col++) {
@@ -89,7 +94,6 @@ document.addEventListener("DOMContentLoaded", function () {
             const emptyLocation = findEmptyLocation();
 
             if (!emptyLocation) {
-                // Sudoku resolvido
                 return true;
             }
 
@@ -100,17 +104,16 @@ document.addEventListener("DOMContentLoaded", function () {
                     board[row][col] = num;
 
                     if (solve()) {
-                        return true; // Encontrou uma solução
+                        return true;
                     }
 
-                    board[row][col] = EMPTY; // Backtrack se a solução não for válida
+                    board[row][col] = EMPTY;
                 }
             }
 
-            return false; // Não há solução para este estado
+            return false;
         }
 
-        // Inicie o processo de resolução
         solve();
     }
 
@@ -201,4 +204,68 @@ document.addEventListener("DOMContentLoaded", function () {
     function isValidInput(num) {
         return !isNaN(num) && num >= 0 && num <= 9;
     }
+
+    let solution = generateSudokuSolution();
+    shuffleBoard(solution);
+    let sudokuBoard = generateSudokuPuzzle(solution, 25);
+    drawSudokuBoard();
+
+    canvas.addEventListener("click", function (event) {
+        const rect = canvas.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+
+        const clickedRow = Math.floor(y / (cellSize + margin));
+        const clickedCol = Math.floor(x / (cellSize + margin));
+
+        if (sudokuBoard[clickedRow][clickedCol] !== EMPTY) {
+            alert("Esta célula já está preenchida automaticamente.");
+            return;
+        }
+
+        const inputNumber = prompt("Digite um número de 1 a 9");
+        const num = parseInt(inputNumber, 10);
+
+        if (isValidInput(num) && isValidMove(sudokuBoard, solution, clickedRow, clickedCol, num)) {
+            sudokuBoard[clickedRow][clickedCol] = num;
+            drawSudokuBoard();
+        } else {
+            alert("Movimento inválido! Tente novamente.");
+            invalidMovesCount++;
+
+            document.querySelector('.invalid').textContent = invalidMovesCount;
+
+            if (invalidMovesCount >= maxInvalidMoves) {
+                showGameOverMenu();
+            }
+        }
+    });
+
+    function showGameOverMenu() {
+        const menuScreen = document.querySelector('.menu-screen');
+        const invalidMovesSpan = document.querySelector('.invalid');
+
+        invalidMovesSpan.textContent = invalidMovesCount;
+
+        menuScreen.style.display = 'flex';
+    }
+
+    function resetGame() {
+        const menuScreen = document.querySelector('.menu-screen');
+        menuScreen.style.display = 'none';
+
+        invalidMovesCount = 0;
+
+        solution = generateSudokuSolution();
+        shuffleBoard(solution);
+        sudokuBoard = generateSudokuPuzzle(solution, 25);
+        drawSudokuBoard();
+
+        document.querySelector('.invalid').textContent = invalidMovesCount;
+    }
+
+    const btnPlayAgain = document.querySelector('.btn-play');
+    btnPlayAgain.addEventListener('click', function () {
+        resetGame();
+    });
 });

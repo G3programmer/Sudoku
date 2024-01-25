@@ -35,20 +35,33 @@ canvas {
     border: 2px solid black; /* Adicionando uma borda para visualização */
 }
 
-.time {
+.timescore{
     display: flex;
-    flex-direction: column; 
+    flex-direction: row; 
+    gap: 90pt;
     color: rgb(83, 83, 83);
     font-size: 1.8rem;
 }
 
-.time--count {
+.time--count,
+.invalid,
+.score {
     color: rgb(83, 83, 83);
     font-weight: 700;
     font-size: 2.5rem;
-    display: block;
+    display: grid;
     margin-top: -10px;
 }
+
+.invalid{
+    margin-top:-5px;
+}
+
+h5 {
+    margin-top: 3px;
+
+}
+
 
 .menu-screen {
     position: absolute;
